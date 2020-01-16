@@ -1,12 +1,13 @@
 import os
 import graphviz
+from topological_sort import exceptions
 
 def load_data_from_file(f):
     V_dict = {}
     for line in f.readlines():
         line = line.rstrip('\n').split(' ')
         if (len(line) != 2):
-            raise Exception("Invalid input data")
+            raise exceptions.InvalidInputDataException("Invalid input data")
 
         # make sure that the vertices are in the dictionary
         if not line[0] in V_dict:
@@ -27,4 +28,6 @@ def visualise_result(graph, sorted_vertices, out_file):
         for adj_V in adj_list:
             dot.edge(str(V), str(adj_V))
     dot.render(out_file, view=True)
+
+
 

@@ -1,6 +1,6 @@
 import click
 import os
-from topological_sort import utils, algorithm, data_generator, execution_time_stats
+from topological_sort import utils, algorithm, data_generator, execution_time_stats, exceptions
 
 @ click.group()
 def main():
@@ -18,8 +18,15 @@ def from_file(path, output):
     """Read graph from a given path and sort it"""
     result = []
     with open(path) as f:
-        graph = utils.load_data_from_file(f)
-        result = algorithm.topological_sort(graph)
+        try:
+            graph = utils.load_data_from_file(f)
+            result = algorithm.topological_sort(graph)
+        except exceptions.InvalidInputDataException:
+            print("The input file is not correct.\nData must be provided as a list of edges, represented by pairs of vertices.")
+            return
+        except exceptions.CycleDetectedException:
+            print("There has been a cycle detected in the input graph.")
+            return
     print(result)
     if (output != None):
         utils.visualise_result(graph, result, output)

@@ -1,3 +1,5 @@
+from topological_sort import exceptions
+
 def topological_sort(adjacencyDict):
 
     # create a dictionary to store indegrees of all vertices
@@ -34,6 +36,6 @@ def topological_sort(adjacencyDict):
     # check if the result list length is equal to the input adjacency list length
     # otherwise, there must have been a cycle
     if (len(result) != len(adjacencyDict)):
-        raise Exception("There is a cycle in the input graph.")
+        raise exceptions.CycleDetectedException("There is a cycle in the input graph.")
 
     return result
